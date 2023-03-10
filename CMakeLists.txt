@@ -63,9 +63,9 @@ else()
     message(FATAL_ERROR "Wrong build option! usage: -DCMAKE_BUILD_TYPE=Debug/Release")
 endif()
 
-INCLUDE_DIRECTORIES("${CMAKE_SOURCE_DIR}/src")
+include_directories(${CMAKE_SOURCE_DIR})
 
-file(GLOB_RECURSE SRCS ${CMAKE_SOURCE_DIR}/src/*.cpp)
+file(GLOB_RECURSE SRCS ${CMAKE_SOURCE_DIR}/arcane/*.cpp)
 
 add_library(arcane ${SRCS})
 

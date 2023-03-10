@@ -1,5 +1,6 @@
 #include <arcane/thread_utils.h>
 
+#include <inttypes.h>
 #include <sys/syscall.h>
 #include <unistd.h>
 
@@ -20,8 +21,8 @@ int64_t GetTid() {
 }
 
 std::string GetTidString() {
-    pid_t pid = GetTid();
-    snprintf(detail::t_tid_buf, sizeof(detail::t_tid_buf), "%6d", static_cast<int>(pid));
+    int64_t pid = GetTid();
+    snprintf(detail::t_tid_buf, sizeof(detail::t_tid_buf), "%" PRId64, pid);
     return detail::t_tid_buf;
 }
 
