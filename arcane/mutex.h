@@ -4,6 +4,8 @@
 #include <stdint.h>
 #include <pthread.h>
 
+#include <arcane/thread_utils.h>
+
 namespace arcane {
 
 class Mutex {
