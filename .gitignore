@@ -3,3 +3,8 @@
 *.swo
 *.pyc
 *.pyo
+
+/lib
+/Release
+/Debug
+
