@@ -1,7 +1,7 @@
 #ifndef ARCANE_MUTEX_H
 #define ARCANE_MUTEX_H
 
-#include <stdlib.h>
+#include <stdint.h>
 #include <pthread.h>
 
 namespace arcane {
@@ -86,4 +86,3 @@ private:
 } // namespace arcane
 
 #endif
-

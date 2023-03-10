@@ -1,7 +1,7 @@
 #ifndef ARCANE_CONDITION_H
 #define ARCANE_CONDITION_H
 
-#include <stdlib.h>
+#include <stdint.h>
 #include <time.h>
 #include <errno.h>
 #include <pthread.h>

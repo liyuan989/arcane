@@ -22,10 +22,9 @@ int64_t GetTid() {
 
 std::string GetTidString() {
     int64_t pid = GetTid();
-    snprintf(detail::t_tid_buf, sizeof(detail::t_tid_buf), "%" PRId64, pid);
+    snprintf(detail::t_tid_buf, sizeof(detail::t_tid_buf), "%6" PRId64, pid);
     return detail::t_tid_buf;
 }
-
 
 } // namespace arcane
 

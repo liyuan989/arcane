@@ -1,7 +1,7 @@
 #ifndef ARCANE_THREAD_UTILS_H
 #define ARCANE_THREAD_UTILS_H
 
-#include <stdlib.h>
+#include <stdint.h>
 #include <string>
 
 namespace arcane {
