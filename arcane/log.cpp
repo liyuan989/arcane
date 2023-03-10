@@ -1,4 +1,4 @@
-#include "log.h"
+#include <arcane/log.h>
 
 #include <time.h>
 #include <stdlib.h>
@@ -6,25 +6,15 @@
 #include <iostream>
 #include <string>
 #include <sys/time.h>
-#include <sys/syscall.h>
-#include <unistd.h>
+
+#include <arcane/thread_utils.h>
 
 namespace arcane {
 
 namespace detail {
 
 thread_local char t_time_buf[64];
-thread_local pid_t t_tid = 0;
-thread_local char t_tid_buf[64]; 
 thread_local std::string trace_id;
-
-std::string GetTid() {
-    if (t_tid == 0) {
-        t_tid = static_cast<pid_t>(syscall(SYS_gettid));
-        snprintf(t_tid_buf, sizeof(t_tid_buf), "%6d", static_cast<int>(t_tid));
-    }
-    return t_tid_buf;
-}
 
 std::string GetLocalTime() {
     struct timeval time_val;
@@ -49,7 +39,7 @@ void DefaultOutput(Log::LogLevel level,
                    int line, 
                    const std::string& msg) {
     std::ostringstream stream;
-    stream << GetLocalTime() << " " << GetTid() << " ";
+    stream << GetLocalTime() << " " << GetTidString() << " ";
     switch (level) {
         case Log::TRACE:
             stream << "[TRACE] ";
