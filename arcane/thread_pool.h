@@ -25,11 +25,13 @@ class ThreadPool {
 public:
     using Task = ThreadPoolTask;
 
-    ThreadPool()
+    ThreadPool(size_t num_threads, size_t max_queue_size = 0)
         : running_(false),
+          lock_(),
           not_empty_(lock_),
           not_full_(lock_),
-          max_queue_size_(0) {
+          num_threads_(num_threads),
+          max_queue_size_(max_queue_size) {
     }
 
     ~ThreadPool() {
@@ -41,10 +43,10 @@ public:
     ThreadPool(const ThreadPool&) = delete;
     ThreadPool& operator=(const ThreadPool&) = delete;
 
-    void start(int num_threads) {
+    void start() {
         running_ = true;
-        threads_.reserve(num_threads);
-        for (int i = 0; i < num_threads; ++i) {
+        threads_.reserve(num_threads_);
+        for (size_t i = 0; i < num_threads_; ++i) {
             std::shared_ptr<std::thread> p(new std::thread(&ThreadPool::RunInThread, this));
             threads_.push_back(p);
         }
@@ -135,10 +137,11 @@ private:
     mutable Lock lock_;
     Condition not_empty_;
     Condition not_full_;
-    Queue queue_;
-    size_t max_queue_size_;
-    std::vector<std::shared_ptr<std::thread>> threads_;
     Task thread_init_callback_;
+    size_t num_threads_;
+    std::vector<std::shared_ptr<std::thread>> threads_;
+    size_t max_queue_size_;
+    Queue queue_;
 };
 
 } // namespace arcane
