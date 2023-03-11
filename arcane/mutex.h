@@ -82,7 +82,7 @@ private:
     }
 
     pthread_mutex_t mutex_;
-    int64_t holder_
+    int64_t holder_;
 };
 
 } // namespace arcane
