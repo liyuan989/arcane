@@ -50,6 +50,14 @@ public:
         return TimedWaitMicroseconds(microseconds); 
     }
 
+    void Notify() {
+        pthread_cond_signal(&cond_);
+    }
+
+    void NotifyAll() {
+        pthread_cond_broadcast(&cond_);
+    }
+
 private:
     Mutex& mutex_;
     pthread_cond_t cond_;

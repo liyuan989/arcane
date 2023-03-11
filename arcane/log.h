@@ -66,28 +66,28 @@ private:
 };
 
 #define LOG_TRACE \
-if (edgedetect::Log::GetLogLevel() <= edgedetect::Log::TRACE) \
-    edgedetect::Log(edgedetect::Log::TRACE, __FILE__, __LINE__)
+if (arcane::Log::GetLogLevel() <= arcane::Log::TRACE) \
+    arcane::Log(arcane::Log::TRACE, __FILE__, __LINE__)
 
 #define LOG_DEBUG \
-if (edgedetect::Log::GetLogLevel() <= edgedetect::Log::DEBUG) \
-    edgedetect::Log(edgedetect::Log::DEBUG, __FILE__, __LINE__)
+if (arcane::Log::GetLogLevel() <= arcane::Log::DEBUG) \
+    arcane::Log(arcane::Log::DEBUG, __FILE__, __LINE__)
 
 #define LOG_INFO \
-if (edgedetect::Log::GetLogLevel() <= edgedetect::Log::INFO) \
-    edgedetect::Log(edgedetect::Log::INFO, __FILE__, __LINE__)
+if (arcane::Log::GetLogLevel() <= arcane::Log::INFO) \
+    arcane::Log(arcane::Log::INFO, __FILE__, __LINE__)
 
 #define LOG_WARN \
-if (edgedetect::Log::GetLogLevel() <= edgedetect::Log::WARN) \
-    edgedetect::Log(edgedetect::Log::WARN, __FILE__, __LINE__)
+if (arcane::Log::GetLogLevel() <= arcane::Log::WARN) \
+    arcane::Log(arcane::Log::WARN, __FILE__, __LINE__)
 
 #define LOG_ERROR \
-if (edgedetect::Log::GetLogLevel() <= edgedetect::Log::ERROR) \
-    edgedetect::Log(edgedetect::Log::ERROR, __FILE__, __LINE__)
+if (arcane::Log::GetLogLevel() <= arcane::Log::ERROR) \
+    arcane::Log(arcane::Log::ERROR, __FILE__, __LINE__)
 
 #define LOG_FATAL \
-if (edgedetect::Log::GetLogLevel() <= edgedetect::Log::FATAL) \
-    edgedetect::Log(edgedetect::Log::FATAL, __FILE__, __LINE__)
+if (arcane::Log::GetLogLevel() <= arcane::Log::FATAL) \
+    arcane::Log(arcane::Log::FATAL, __FILE__, __LINE__)
 
 } // namespace arcane
 
