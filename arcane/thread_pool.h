@@ -27,7 +27,9 @@ public:
 
     ThreadPool()
         : running_(false),
-          cond_(lock_) {
+          not_empty_(lock_),
+          not_full_(lock_),
+          max_queue_size_(0) {
     }
 
     ~ThreadPool() {
@@ -46,13 +48,17 @@ public:
             std::shared_ptr<std::thread> p(new std::thread(&ThreadPool::RunInThread, this));
             threads_.push_back(p);
         }
+        if (threads_.empty() && thread_init_callback_) {
+            thread_init_callback_(); 
+        }
     }
 
     void stop() {
         {
             LockGuard<Lock> guard(lock_);
             running_ = false;
-            cond_.NotifyAll();
+            not_empty_.NotifyAll();
+            not_full_.NotifyAll();
         }
         for (auto thread : threads_) {
             thread->join();
@@ -64,14 +70,32 @@ public:
             task();
         } else {
             LockGuard<Lock> guard(lock_);
+            while (IsFull() && running_) {
+                not_full_.Wait();
+            }
+            if (!running_) {
+                return;
+            }
             queue_.push_back(task);
-            cond_.Notify();
+            not_empty_.Notify();
         }
+    }
+
+    void SetThreadInitCallback(const Task& cb) {
+        thread_init_callback_ = cb;
+    }
+
+    size_t QueueSize() const {
+        LockGuard<Lock> guard(lock_);
+        return queue_.size();
     }
 
 private:
     void RunInThread() {
         try {
+            if (thread_init_callback_) {
+                thread_init_callback_();
+            }
             while (running_) {
                 Task task = Take();
                 if (task) {
@@ -90,21 +114,31 @@ private:
     Task Take() {
         LockGuard<Lock> guard(lock_);
         while (queue_.empty() && running_) {
-            cond_.Wait();
+            not_empty_.Wait();
         }
         Task task;
         if (!queue_.empty()) {
             task = queue_.front();
             queue_.pop_front();
+            if (max_queue_size_ > 0) {
+                not_full_.Notify();
+            }
         }
         return task;
     }
 
+    bool IsFull() const {
+        return max_queue_size_ > 0 && queue_.size() >= max_queue_size_; 
+    }
+
     bool running_;
-    Lock lock_;
-    Condition cond_;
+    mutable Lock lock_;
+    Condition not_empty_;
+    Condition not_full_;
     Queue queue_;
+    size_t max_queue_size_;
     std::vector<std::shared_ptr<std::thread>> threads_;
+    Task thread_init_callback_;
 };
 
 } // namespace arcane
