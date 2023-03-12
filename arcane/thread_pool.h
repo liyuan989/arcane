@@ -20,16 +20,16 @@ namespace arcane {
 
 using ThreadPoolTask = std::function<void ()>;
 
-template<typename Lock = Mutex, typename Queue = std::deque<ThreadPoolTask>>
+template<typename Queue = std::deque<ThreadPoolTask>>
 class ThreadPool {
 public:
     using Task = ThreadPoolTask;
 
     ThreadPool(size_t num_threads, size_t max_queue_size = 0)
         : running_(false),
-          lock_(),
-          not_empty_(lock_),
-          not_full_(lock_),
+          mutex_(),
+          not_empty_(mutex_),
+          not_full_(mutex_),
           num_threads_(num_threads),
           max_queue_size_(max_queue_size) {
     }
@@ -57,7 +57,7 @@ public:
 
     void stop() {
         {
-            LockGuard<Lock> guard(lock_);
+            LockGuard<Mutex> guard(mutex_);
             running_ = false;
             not_empty_.NotifyAll();
             not_full_.NotifyAll();
@@ -71,7 +71,7 @@ public:
         if (threads_.empty()) {
             task();
         } else {
-            LockGuard<Lock> guard(lock_);
+            LockGuard<Mutex> guard(mutex_);
             while (IsFull() && running_) {
                 not_full_.Wait();
             }
@@ -88,7 +88,7 @@ public:
     }
 
     size_t QueueSize() const {
-        LockGuard<Lock> guard(lock_);
+        LockGuard<Mutex> guard(mutex_);
         return queue_.size();
     }
 
@@ -114,7 +114,7 @@ private:
     }
 
     Task Take() {
-        LockGuard<Lock> guard(lock_);
+        LockGuard<Mutex> guard(mutex_);
         while (queue_.empty() && running_) {
             not_empty_.Wait();
         }
@@ -134,7 +134,7 @@ private:
     }
 
     bool running_;
-    mutable Lock lock_;
+    mutable Mutex mutex_;
     Condition not_empty_;
     Condition not_full_;
     Task thread_init_callback_;
