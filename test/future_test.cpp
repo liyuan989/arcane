@@ -1,4 +1,6 @@
 #include <utility>
+#include <thread>
+#include <chrono>
 
 #include <arcane/log.h>
 #include <arcane/future.h>
@@ -11,6 +13,7 @@ int accumulate(int low, int high) {
     for (int i = low; i <= high; ++i) {
         v += i;
     }
+    std::this_thread::sleep_for(std::chrono::seconds(1));
     return v;
 }
 
