@@ -78,3 +78,5 @@ set(LIBRARIES
 
 target_link_libraries(arcane ${LIBRARIES})
 
+add_subdirectory(test)
+

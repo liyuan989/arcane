@@ -4,6 +4,7 @@
 *.pyc
 *.pyo
 
+/bin
 /lib
 /Release
 /Debug

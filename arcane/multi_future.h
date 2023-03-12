@@ -1,6 +1,7 @@
 #ifndef ARCANE_MULTI_FUTURE_H
 #define ARCANE_MULTI_FUTURE_H
 
+#include <stdlib.h>
 #include <vector>
 #include <atomic>
 #include <functional>

@@ -1,6 +1,7 @@
 #ifndef ARCANE_FUTURE_H
 #define ARCANE_FUTURE_H
 
+#include <stdint.h>
 #include <functional>
 #include <utility>
 
