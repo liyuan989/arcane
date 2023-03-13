@@ -10,11 +10,13 @@
 namespace arcane {
 
 //Takes the squared euclidean distance of the input coordinates. Does not return meters
-double SquaredEuclideanDistance(const Coordinate& lhs, const Coordinate& rhs);
+double SquaredEuclideanDistance(const Coordinate& a, const Coordinate& b);
 
-double HaversineDistance(const Coordinate& coordinate_1, const Coordinate& coordinate_2);
+double ManhattanDistance(const Coordinate& a, const Coordinate& b);
 
-double GreatCircleDistance(const Coordinate& coordinate_1, const Coordinate& coordinate_2);
+double HaversineDistance(const Coordinate& a, const Coordinate& b);
+
+double GreatCircleDistance(const Coordinate& a, const Coordinate& b);
 
 // get the length of a full coordinate vector, 
 // using one of our basic functions to compute distances
@@ -107,6 +109,32 @@ bool IsCounterclockwise(
 Coordinate RotateCounterclockwiseAroundZero(
         const Coordinate& coordinate, 
         double angle_in_radians);
+
+Coordinate Centroid(const Coordinate& a, const Coordinate& b);
+
+double Bearing(const Coordinate& a, const Coordinate& b);
+
+// find the center of a circle through three coordinates
+std::pair<Coordinate, bool> CircleCenter(
+        const Coordinate& first_coordinate,
+        const Coordinate& second_coordinate,
+        const Coordinate& third_coordinate);
+
+// find the radius of a circle through three coordinates
+std::pair<double, bool> CircleRadius(
+        const Coordinate& first_coordinate,
+        const Coordinate& second_coordinate,
+        const Coordinate& third_coordinate);
+
+// factor in [0,1]. Returns point along the straight line between from and to. 
+// 0 returns from, 1 returns to
+Coordinate InterpolateLinear(
+        double factor, 
+        const Coordinate& from, 
+        const Coordinate& to);
+
+// compute the difference vector of two coordinates a - b
+Coordinate Difference(const Coordinate& a, const Coordinate& b);
 
 } // namespace arcane
 
