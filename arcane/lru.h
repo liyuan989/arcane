@@ -58,7 +58,7 @@ public:
     }
 
     std::pair<T, bool> Get(const Key& key) {
-        auto res = std::make_pair<T, bool>(T(), false);
+        auto res = std::make_pair(T(), false);
         auto it = map_.find(key);
         if (it != map_.end()) {
             res.first = it->second->second;

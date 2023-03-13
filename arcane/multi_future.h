@@ -42,15 +42,15 @@ public:
         return result_;
     }
 
-    std::pair<bool, std::vector<T>> Get(int64_t microseconds) {
+    std::pair<std::vector<T>, bool> Get(int64_t microseconds) {
         LockGuard<Mutex> guard(mutex_);
         while (!done_) {
             if (cond_.TimedWaitMicroseconds(microseconds)) {
                 std::vector<T> tmp;
-                return std::make_pair<bool, std::vector<T>>(false, tmp);
+                return std::make_pair(tmp, false);
             }
         }
-        return std::make_pair<bool, std::vector>(true, result_);
+        return std::make_pair(result_, true);
     }
 
 private:
