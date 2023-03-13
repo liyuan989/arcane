@@ -20,7 +20,7 @@ namespace arcane {
 
 using ThreadPoolTask = std::function<void ()>;
 
-template<typename Queue = std::deque<ThreadPoolTask>>
+template <typename Queue = std::deque<ThreadPoolTask>>
 class ThreadPool {
 public:
     using Task = ThreadPoolTask;

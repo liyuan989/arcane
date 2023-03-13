@@ -5,7 +5,7 @@
 
 namespace arcane {
 
-template<typename Lock>
+template <typename Lock>
 class LockGuard {
 public:
     LockGuard(Lock& lock)

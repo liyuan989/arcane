@@ -12,7 +12,7 @@
 
 namespace arcane {
 
-template<typename T, typename Queue = std::deque<ThreadPoolTask>>
+template <typename T, typename Queue = std::deque<ThreadPoolTask>>
 class Future {
 public:
     using Task = std::function<T ()>;
