@@ -16,6 +16,9 @@ double ManhattanDistance(const Coordinate& a, const Coordinate& b);
 
 double HaversineDistance(const Coordinate& a, const Coordinate& b);
 
+// approximated haversine but more efficient, see:
+// https://stackoverflow.com/questions/38248046/
+// is-the-haversine-formula-or-the-vincentys-formula-better-for-calculating-distan
 double GreatCircleDistance(const Coordinate& a, const Coordinate& b);
 
 // get the length of a full coordinate vector, 
