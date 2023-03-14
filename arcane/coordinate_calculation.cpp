@@ -116,6 +116,21 @@ double SignedArea(
             lon_3 * lat_2 - lon_1 * lat_3 + lon_2 * lat_3);
 }
 
+Coordinate RotateClockwise(
+        const Coordinate& coordinate,
+        double degree,
+        double distance) {
+    degree = abs(degree);
+    distance = abs(distance);
+    double lat = distance * cos(degree * detail::DEGREE_TO_RAD) / 
+            (detail::EARTH_RADIUS * detail::DEGREE_TO_RAD);
+    lat += coordinate.lat;
+    double lon = distance * sin(degree * detail::DEGREE_TO_RAD) /
+            (detail::EARTH_RADIUS * cos(lat * detail::DEGREE_TO_RAD) * detail::DEGREE_TO_RAD);
+    lon += coordinate.lon;
+    return Coordinate(lon, lat);
+}
+
 bool IsCounterclockwise(
         const Coordinate& first_coordinate,
         const Coordinate& second_coordinate,

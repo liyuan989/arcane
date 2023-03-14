@@ -100,6 +100,12 @@ double SignedArea(
         const Coordinate& second_coordinate,
         const Coordinate& third_coordinate);
 
+// clockwise rotates a coordinate by angle and distance
+Coordinate RotateClockwise(
+        const Coordinate& coordinate,
+        double degree,
+        double distance);
+
 // check if a set of three coordinates is given in counterclockwise order
 bool IsCounterclockwise(
            const Coordinate& first_coordinate,

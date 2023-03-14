@@ -659,7 +659,7 @@ int gcj_decrypt(dpoint_t oldxy, dpoint_t* newxy) {
         gpsy = ymid;
         res = 0;
     } else {
-        while (1) {
+        while (true) {
             double x1 = xmid - cellsize, x1new = 0;
             double y1 = ymid + cellsize, y1new = 0;
             double x2 = xmid - cellsize, x2new = 0;
@@ -810,18 +810,21 @@ int coordtrans(
 
 } // namespace detail
 
-Coordinate CoordinateTransform(
+std::pair<Coordinate, bool> CoordinateTransform(
         const Coordinate& coordinate,
         const std::string& from,
         const std::string& to) {
-    Coordinate res;
-    detail::coordtrans(
+    auto res = std::make_pair(Coordinate(), false);
+    int v = detail::coordtrans(
             from.c_str(), 
             to.c_str(), 
             coordinate.lon, 
             coordinate.lat, 
-            res.lon, 
-            res.lat);
+            res.first.lon, 
+            res.first.lat);
+    if (v == 0) {
+        res.second = true;
+    }
     return res;
 }
 
